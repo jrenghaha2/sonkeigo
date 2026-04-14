@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>尊敬語 — Sonkeigo Interaktif JLPT N4/N3</title>
+  <style>
+    :root {
+      --bg:       #09090f;
+      --surface:  #12121e;
+      --card:     #1a1a2e;
+      --border:   #2a2a40;
+      --accent:   #4f8ef7;
+      --accent2:  #7c3aed;
+      --gold:     #f59e0b;
+      --red:      #ef4444;
+      --green:    #22c55e;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #09090f;
+      color: #e2e8f0;
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, 'Yu Gothic', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Background texture ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(79,142,247,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(124,58,237,.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 80px; }
+
+    /* ── Header ── */
+    header { text-align: center; padding: 48px 0 40px; }
+    .kanji-title {
+      font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', 'MS Mincho', Georgia, serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      background: linear-gradient(135deg, #fff 30%, #4f8ef7 70%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+    .furigana-title { font-size: .85rem; color: #4f8ef7; letter-spacing: .3em; margin-top: 4px; }
+    .sub-title {
+      font-size: 1.1rem; color: #64748b; margin-top: 10px; letter-spacing: .05em;
+    }
+    .badge-row { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+    .badge {
+      padding: 4px 14px; border-radius: 999px; font-size: .78rem; font-weight: 500;
+      border: 1px solid;
+    }
+    .badge-n4 { border-color: #4f8ef7; color: #4f8ef7; background: rgba(79,142,247,.08); }
+    .badge-n3 { border-color: #7c3aed; color: #a78bfa; background: rgba(124,58,237,.08); }
+    .badge-keigo { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,.08); }
+
+    /* ── Tab Bar ── */
+    .tabs {
+      display: flex; border-bottom: 1px solid #2a2a40;
+      margin-bottom: 36px; overflow-x: auto; gap: 4px;
+    }
+    .tab-btn {
+      padding: 14px 20px; font-size: .95rem; font-weight: 500;
+      color: #64748b; border: none; background: none; cursor: pointer;
+      white-space: nowrap; border-bottom: 3px solid transparent;
+      transition: all .2s; font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+      flex: 1; min-width: 120px;
+    }
+    .tab-btn:hover { color: #e2e8f0; }
+    .tab-btn.active { color: #fff; border-bottom-color: #4f8ef7; }
+    .tab-btn .lv { font-size: .7rem; color: #4f8ef7; display: block; }
+
+    /* ── Content sections ── */
+    .tab-content { display: none; animation: fadeIn .3s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── Section header ── */
+    .sec-title { font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+    .sec-desc { color: #94a3b8; line-height: 1.75; margin-bottom: 28px; font-size: .95rem; }
+
+    /* ── Info box ── */
+    .info-box {
+      border-left: 4px solid #4f8ef7; background: rgba(79,142,247,.07);
+      border-radius: 0 12px 12px 0; padding: 18px 20px; margin-bottom: 28px;
+      font-size: .9rem; line-height: 1.8;
+    }
+    .warn-box {
+      border-left: 4px solid #f59e0b; background: rgba(245,158,11,.07);
+      border-radius: 0 12px 12px 0; padding: 18px 20px; margin-bottom: 28px;
+      font-size: .9rem; line-height: 1.8;
+    }
+    .tip-box {
+      border-left: 4px solid #22c55e; background: rgba(34,197,94,.07);
+      border-radius: 0 12px 12px 0; padding: 18px 20px; margin-bottom: 28px;
+      font-size: .9rem; line-height: 1.8;
+    }
+    .danger-box {
+      border-left: 4px solid #ef4444; background: rgba(239,68,68,.07);
+      border-radius: 0 12px 12px 0; padding: 18px 20px; margin-bottom: 28px;
+      font-size: .9rem; line-height: 1.8;
+    }
+
+    /* ── Formula block ── */
+    .formula {
+      background: #12121e; border: 1px solid #2a2a40;
+      border-radius: 14px; padding: 20px 24px; margin-bottom: 28px;
+      font-size: 1rem; line-height: 2;
+    }
+    .formula code {
+      background: rgba(79,142,247,.15); color: #93c5fd;
+      padding: 2px 10px; border-radius: 6px; font-family: monospace;
+      font-size: .95em;
+    }
+
+    /* ── Table ── */
+    .tbl-wrap { overflow-x: auto; border-radius: 14px; margin-bottom: 32px; }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { background: linear-gradient(90deg, rgba(79,142,247,.2), rgba(124,58,237,.2)); }
+    thead th { padding: 14px 16px; text-align: left; font-size: .82rem; letter-spacing: .08em; color: #94a3b8; font-weight: 600; }
+    tbody tr { border-bottom: 1px solid #2a2a40; transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,.025); }
+    td { padding: 14px 16px; vertical-align: top; font-size: .95rem; line-height: 1.7; }
+    .jp { font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif; font-size: 1.1rem; font-weight: 600; color: #e0e7ff; }
+    .jp-example { font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif; font-size: .95rem; color: #cbd5e1; }
+    .jp-tr { font-size: .8rem; color: #64748b; margin-top: 4px; }
+    ruby rt { font-size: .6em; color: #60a5fa; }
+    .badge-type {
+      display: inline-block; font-size: .68rem; padding: 1px 8px;
+      border-radius: 4px; vertical-align: middle; margin-left: 6px; font-weight: 600;
+    }
+    .badge-wago { background: rgba(79,142,247,.2); color: #93c5fd; border: 1px solid rgba(79,142,247,.3); }
+    .badge-kango { background: rgba(124,58,237,.2); color: #c4b5fd; border: 1px solid rgba(124,58,237,.3); }
+    .badge-special { background: rgba(245,158,11,.2); color: #fcd34d; border: 1px solid rgba(245,158,11,.3); }
+
+    /* ── Card grid ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .card {
+      background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 14px;
+      padding: 20px; transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: #4f8ef7; transform: translateY(-2px); }
+    .card-label { font-size: .75rem; color: #64748b; margin-bottom: 8px; letter-spacing: .06em; }
+    .card-main { font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif; font-size: 1.3rem; font-weight: 700; color: #e0e7ff; margin-bottom: 6px; }
+    .card-arrow { color: #4f8ef7; margin: 0 4px; }
+    .card-ex { font-size: .82rem; color: #94a3b8; margin-top: 8px; font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif; line-height: 1.6; }
+
+    /* ── Compare row ── */
+    .compare-row {
+      background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 14px;
+      padding: 20px 24px; margin-bottom: 14px;
+    }
+    .compare-label { font-size: .72rem; color: #64748b; letter-spacing: .08em; margin-bottom: 4px; }
+    .compare-jp { font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif; font-size: 1.1rem; color: #e2e8f0; }
+    .lv-tag {
+      display: inline-block; font-size: .7rem; padding: 2px 10px; border-radius: 20px;
+      margin-left: 10px; vertical-align: middle; font-weight: 600;
+    }
+    .lv-plain { background: rgba(100,116,139,.2); color: #64748b; }
+    .lv-l1 { background: rgba(245,158,11,.2); color: #fcd34d; }
+    .lv-l2 { background: rgba(79,142,247,.2); color: #93c5fd; }
+    .lv-l3 { background: rgba(34,197,94,.2); color: #86efac; }
+    .lv-l4 { background: rgba(239,68,68,.2); color: #fca5a5; }
+
+    /* ── Quiz ── */
+    .quiz-card {
+      background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 16px;
+      padding: 28px; margin-bottom: 20px;
+    }
+    .quiz-q { font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif; font-size: 1.15rem; margin-bottom: 20px; line-height: 1.7; }
+    .quiz-q .blank {
+      display: inline-block; min-width: 120px; border-bottom: 2px solid #4f8ef7;
+      text-align: center; color: #4f8ef7; font-weight: 700;
+    }
+    .quiz-options { display: flex; flex-wrap: wrap; gap: 10px; }
+    .quiz-opt {
+      padding: 10px 20px; border-radius: 10px; border: 1px solid #2a2a40;
+      background: #12121e; cursor: pointer; font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+      font-size: .95rem; transition: all .2s; color: #e2e8f0;
+    }
+    .quiz-opt:hover { border-color: #4f8ef7; color: #fff; }
+    .quiz-opt.correct { background: rgba(34,197,94,.15); border-color: #22c55e; color: #86efac; }
+    .quiz-opt.wrong { background: rgba(239,68,68,.12); border-color: #ef4444; color: #fca5a5; }
+    .quiz-feedback { margin-top: 14px; font-size: .9rem; min-height: 24px; line-height: 1.6; }
+    .quiz-score { text-align: right; font-size: .85rem; color: #64748b; margin-bottom: 16px; }
+
+    /* ── Summary ── */
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .summary-card {
+      background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 14px;
+      padding: 22px; text-align: center;
+    }
+    .summary-lv { font-size: 2rem; font-weight: 700; font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif; margin-bottom: 6px; }
+    .summary-name { font-size: .82rem; color: #4f8ef7; letter-spacing: .06em; margin-bottom: 10px; }
+    .summary-rule { font-size: .88rem; color: #94a3b8; line-height: 1.6; }
+
+    /* ── Polite chart ── */
+    .polite-bar { margin-bottom: 12px; }
+    .polite-label { display: flex; justify-content: space-between; font-size: .82rem; color: #64748b; margin-bottom: 5px; }
+    .polite-track { height: 8px; background: #2a2a40; border-radius: 999px; overflow: hidden; }
+    .polite-fill { height: 100%; border-radius: 999px; transition: width 1s ease; }
+
+    h4 { font-size: 1.1rem; font-weight: 600; margin: 24px 0 12px; color: #c7d2fe; }
+
+    /* ── MOBILE RESPONSIVE ── */
+    @media (max-width: 600px) {
+
+      .wrap { padding: 12px 10px 60px; }
+      header { padding: 24px 0 20px; }
+      .sub-title { font-size: .9rem; }
+      .sec-title { font-size: 1.4rem; }
+      .sec-desc { font-size: .88rem; }
+
+      .tabs { margin-bottom: 20px; gap: 0; }
+      .tab-btn { padding: 10px 6px; font-size: .68rem; min-width: 0; flex: 1; }
+      .tab-btn .lv { font-size: .57rem; }
+
+      .info-box, .warn-box, .tip-box, .danger-box { padding: 12px 14px; font-size: .83rem; }
+      .formula { padding: 14px 16px; font-size: .88rem; line-height: 1.85; }
+      h4 { font-size: .95rem; }
+
+      /* TABLE to CARD layout */
+      .tbl-wrap { overflow-x: visible; border-radius: 0; margin-left: -10px; margin-right: -10px; }
+      .tbl-wrap table { display: block; }
+      .tbl-wrap thead { display: none; }
+      .tbl-wrap tbody { display: block; }
+      .tbl-wrap tbody tr {
+        display: block;
+        background: #1a1a2e;
+        border: 1px solid #2a2a40;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+        overflow: hidden;
+      }
+      .tbl-wrap tbody tr:hover { background: #1a1a2e; }
+      .tbl-wrap td {
+        display: flex;
+        flex-direction: column;
+        padding: 9px 14px;
+        font-size: .88rem;
+        border-bottom: 1px solid rgba(42,42,64,.6);
+      }
+      .tbl-wrap td:last-child { border-bottom: none; }
+      .tbl-wrap td::before {
+        content: attr(data-label);
+        font-size: .62rem;
+        color: #4f8ef7;
+        letter-spacing: .07em;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      .jp { font-size: .95rem; }
+      .jp-example { font-size: .83rem; }
+      .jp-tr { font-size: .73rem; }
+
+      .card-grid { grid-template-columns: 1fr; }
+      .card { padding: 14px; }
+      .compare-row { padding: 14px 16px; }
+      .compare-jp { font-size: .92rem; }
+
+      .quiz-card { padding: 16px; }
+      .quiz-q { font-size: .95rem; }
+      .quiz-opt { padding: 8px 12px; font-size: .85rem; }
+
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .summary-card { padding: 14px; }
+      .summary-lv { font-size: 1.6rem; }
+      .summary-rule { font-size: .78rem; }
+      .polite-label { font-size: .72rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="kanji-title">尊敬語</div>
+    <div class="furigana-title">そんけいご</div>
+    <div class="sub-title">Sonkeigo — Bahasa Penghormatan dalam Bahasa Jepang</div>
+    <div class="badge-row">
+      <span class="badge badge-n4">JLPT N4</span>
+      <span class="badge badge-n3">JLPT N3</span>
+      <span class="badge badge-keigo">Keigo 敬語</span>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab(1)" id="tab1">
+      <span class="lv">LEVEL 1</span>動詞 Khusus
+    </button>
+    <button class="tab-btn" onclick="showTab(2)" id="tab2">
+      <span class="lv">LEVEL 2</span>お／ご〜になる
+    </button>
+    <button class="tab-btn" onclick="showTab(3)" id="tab3">
+      <span class="lv">LEVEL 3</span>Bentuk Pasif
+    </button>
+    <button class="tab-btn" onclick="showTab(4)" id="tab4">
+      <span class="lv">LEVEL 4</span>二重敬語
+    </button>
+    <button class="tab-btn" onclick="showTab(5)" id="tab5">
+      <span class="lv">LATIHAN</span>Kuis
+    </button>
+    <button class="tab-btn" onclick="showTab(6)" id="tab6">
+      <span class="lv">RINGKASAN</span>Semua Level
+    </button>
+  </div>
+
+  <!-- ─── LEVEL 1 ─── -->
+  <div class="tab-content active" id="content1">
+    <div class="sec-title">Level 1 — Kata Kerja Khusus (特別な動詞)</div>
+    <p class="sec-desc">
+      Level 1 adalah inti dari sonkeigo. Kata kerja biasa diganti sepenuhnya dengan kata yang berbeda — bukan hanya ditambah imbuhan. Ini harus <strong>dihafal satu per satu</strong>. Kata-kata ini digunakan untuk mendeskripsikan tindakan orang yang lebih tinggi status sosialnya (atasan, guru, pelanggan, dll).
+    </p>
+
+    <div class="info-box">
+      <strong>📌 Prinsip Dasar Sonkeigo:</strong><br>
+      Sonkeigo digunakan untuk <em>memuliakan</em> orang LAIN (atasan, guru, tamu). Bukan untuk diri sendiri.
+      Kebalikannya adalah <strong>Kenjōgo (謙譲語)</strong> yang dipakai untuk merendahkan diri sendiri.
+      <br><br>
+      <strong>Siapa yang "melakukan" aksi?</strong> → Orang yang lebih tinggi.<br>
+      <strong>Siapa yang "berbicara"?</strong> → Kita (pihak lebih rendah).
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%">Kata Biasa</th>
+            <th style="width:22%">Sonkeigo</th>
+            <th style="width:12%">Arti</th>
+            <th>Contoh Kalimat + Terjemahan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="jp"><ruby>行く<rt>いく</rt></ruby>・<ruby>来る<rt>くる</rt></ruby>・いる</span></td>
+            <td>
+              <div class="jp">いらっしゃる</div>
+              <div class="jp" style="margin-top:4px;font-size:.9rem;color:#94a3b8">おいでになる</div>
+            </td>
+            <td style="color:#94a3b8;font-size:.85rem">pergi / datang / ada</td>
+            <td>
+              <div class="jp-example">社長はもう会社に<strong style="color:#93c5fd">いらっしゃいます</strong>か？</div>
+              <div class="jp-tr">Apakah Direktur sudah ada di perusahaan?</div>
+              <div class="jp-example" style="margin-top:8px">先生はどちらへ<strong style="color:#93c5fd">いらっしゃいます</strong>か？</div>
+              <div class="jp-tr">Sensei akan pergi ke mana?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>言う<rt>いう</rt></ruby></span></td>
+            <td><span class="jp">おっしゃる</span></td>
+            <td style="color:#94a3b8;font-size:.85rem">berkata / mengatakan</td>
+            <td>
+              <div class="jp-example">先生が<strong style="color:#93c5fd">おっしゃった</strong>ことを覚えていますか？</div>
+              <div class="jp-tr">Apakah kamu ingat apa yang sensei katakan?</div>
+              <div class="jp-example" style="margin-top:8px">社長が「明日会議がある」と<strong style="color:#93c5fd">おっしゃっていました</strong>。</div>
+              <div class="jp-tr">Direktur mengatakan "ada rapat besok".</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>食べる<rt>たべる</rt></ruby>・<ruby>飲む<rt>のむ</rt></ruby></span></td>
+            <td><span class="jp"><ruby>召し上がる<rt>めしあがる</rt></ruby></span></td>
+            <td style="color:#94a3b8;font-size:.85rem">makan / minum</td>
+            <td>
+              <div class="jp-example">どうぞ<strong style="color:#93c5fd">召し上がってください</strong>。</div>
+              <div class="jp-tr">Silakan makan/minum (dipersilakan).</div>
+              <div class="jp-example" style="margin-top:8px">部長はもうお昼を<strong style="color:#93c5fd">召し上がりましたか</strong>？</div>
+              <div class="jp-tr">Apakah manajer sudah makan siang?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>見る<rt>みる</rt></ruby></span></td>
+            <td><span class="jp"><ruby>ご覧になる<rt>ごらんになる</rt></ruby></span></td>
+            <td style="color:#94a3b8;font-size:.85rem">melihat / menonton</td>
+            <td>
+              <div class="jp-example">この資料を<strong style="color:#93c5fd">ご覧になりましたか</strong>？</div>
+              <div class="jp-tr">Apakah Anda sudah melihat dokumen ini?</div>
+              <div class="jp-example" style="margin-top:8px">先生はもうこの映画を<strong style="color:#93c5fd">ご覧になりましたか</strong>？</div>
+              <div class="jp-tr">Apakah sensei sudah menonton film ini?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp">する</span></td>
+            <td><span class="jp">なさる</span></td>
+            <td style="color:#94a3b8;font-size:.85rem">melakukan</td>
+            <td>
+              <div class="jp-example">何を<strong style="color:#93c5fd">なさいますか</strong>？</div>
+              <div class="jp-tr">Apa yang akan Anda lakukan?</div>
+              <div class="jp-example" style="margin-top:8px">お仕事は何を<strong style="color:#93c5fd">なさっていますか</strong>？</div>
+              <div class="jp-tr">Anda bekerja sebagai apa?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>知っている<rt>しっている</rt></ruby></span></td>
+            <td><span class="jp"><ruby>ご存じだ<rt>ごぞんじだ</rt></ruby></span></td>
+            <td style="color:#94a3b8;font-size:.85rem">mengetahui</td>
+            <td>
+              <div class="jp-example">田中さんを<strong style="color:#93c5fd">ご存じですか</strong>？</div>
+              <div class="jp-tr">Apakah Anda mengenal Tanaka-san?</div>
+              <div class="jp-example" style="margin-top:8px">この件については<strong style="color:#93c5fd">ご存じのはず</strong>です。</div>
+              <div class="jp-tr">Seharusnya Anda sudah mengetahui hal ini.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>寝る<rt>ねる</rt></ruby></span></td>
+            <td><span class="jp"><ruby>お休みになる<rt>おやすみになる</rt></ruby></span></td>
+            <td style="color:#94a3b8;font-size:.85rem">tidur / beristirahat</td>
+            <td>
+              <div class="jp-example">先生はもう<strong style="color:#93c5fd">お休みになりました</strong>。</div>
+              <div class="jp-tr">Sensei sudah pergi tidur.</div>
+              <div class="jp-example" style="margin-top:8px">社長は今<strong style="color:#93c5fd">お休みになっています</strong>。</div>
+              <div class="jp-tr">Direktur sedang beristirahat sekarang.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp">くれる</span></td>
+            <td><span class="jp">くださる</span></td>
+            <td style="color:#94a3b8;font-size:.85rem">memberi (ke saya)</td>
+            <td>
+              <div class="jp-example">先生が本を<strong style="color:#93c5fd">くださいました</strong>。</div>
+              <div class="jp-tr">Sensei memberikan buku (kepada saya).</div>
+              <div class="jp-example" style="margin-top:8px">部長がアドバイスを<strong style="color:#93c5fd">くださり</strong>、ありがとうございます。</div>
+              <div class="jp-tr">Terima kasih atas saran dari Manajer.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>着る<rt>きる</rt></ruby></span></td>
+            <td><span class="jp"><ruby>お召しになる<rt>おめしになる</rt></ruby></span></td>
+            <td style="color:#94a3b8;font-size:.85rem">memakai (baju)</td>
+            <td>
+              <div class="jp-example">素敵なスーツを<strong style="color:#93c5fd">お召しになっています</strong>ね。</div>
+              <div class="jp-tr">Anda memakai setelan yang bagus ya.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>死ぬ<rt>しぬ</rt></ruby></span></td>
+            <td>
+              <div class="jp"><ruby>お亡くなりになる<rt>おなくなりになる</rt></ruby></div>
+              <div class="jp" style="font-size:.88rem;color:#94a3b8;margin-top:4px"><ruby>亡くなられる<rt>なくなられる</rt></ruby></div>
+            </td>
+            <td style="color:#94a3b8;font-size:.85rem">meninggal</td>
+            <td>
+              <div class="jp-example">先生は昨年<strong style="color:#93c5fd">お亡くなりになりました</strong>。</div>
+              <div class="jp-tr">Sensei meninggal dunia tahun lalu.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Tips Konjugasi — いらっしゃる・おっしゃる・なさる・くださる:</strong><br>
+      Keempat kata kerja ini berakhiran <strong>〜aru</strong> tapi berperilaku seperti <em>godan</em> dengan pengecualian: bentuk ます-nya TIDAK mengikuti pola biasa.<br><br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">いらっしゃる</span> → <strong>いらっしゃいます</strong> (bukan いらっしゃります)<br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">おっしゃる</span> → <strong>おっしゃいます</strong> (bukan おっしゃります)<br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">なさる</span> → <strong>なさいます</strong> (bukan なさります)<br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">くださる</span> → <strong>くださいます</strong> (bukan くださります)
+    </div>
+
+    <div class="danger-box">
+      <strong>⚠️ Jangan Salah Kaprah!</strong><br>
+      Sonkeigo Level 1 HANYA untuk orang lain. Contoh salah:<br>
+      ❌ 私は<span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">召し上がります</span>。← Salah! Tidak boleh memuliakan diri sendiri.<br>
+      ✅ 私は<span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">いただきます</span>。← Benar! Gunakan kenjōgo untuk diri sendiri.
+    </div>
+  </div>
+
+  <!-- ─── LEVEL 2 ─── -->
+  <div class="tab-content" id="content2">
+    <div class="sec-title">Level 2 — Pola お／ご + 〜になる</div>
+    <p class="sec-desc">
+      Pola Level 2 adalah pola <strong>paling produktif</strong> dalam sonkeigo — bisa dipakai untuk hampir semua kata kerja yang tidak punya bentuk khusus Level 1. Pola ini dibagi dua tergantung asal katanya: <em>wago</em> (kata asli Jepang) atau <em>kango</em> (kata serapan dari bahasa Cina).
+    </p>
+
+    <!-- Wago -->
+    <div class="formula">
+      <strong style="color:#93c5fd">🔹 Wago (和語) — Kata Asli Jepang:</strong><br>
+      <code>お</code> + <code>bentuk ます-stem</code> + <code>になる</code><br><br>
+      <span style="color:#94a3b8;font-size:.88rem">Cara: ubah kata kerja ke bentuk ます → hapus ます → tambah お di depan dan になる di belakang</span><br>
+      Contoh: <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">読む</span> → <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">読みます</span> → <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif;color:#93c5fd">お読みになる</span>
+    </div>
+
+    <!-- Kango -->
+    <div class="formula">
+      <strong style="color:#c4b5fd">🔸 Kango (漢語) — Kata Serapan Cina (biasanya berakhir する):</strong><br>
+      <code>ご</code> + <code>bagian sebelum する</code> + <code>になる</code><br><br>
+      <span style="color:#94a3b8;font-size:.88rem">Cara: ambil bagian noun-nya saja → tambah ご di depan dan になる di belakang</span><br>
+      Contoh: <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">確認する</span> → <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">確認</span> → <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif;color:#c4b5fd">ご確認になる</span>
+    </div>
+
+    <div class="info-box">
+      <strong>📌 Kapan pakai お dan kapan pakai ご?</strong><br>
+      <strong>お (on'yomi: o)</strong> → kata asli Jepang (wago): <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お読み、お帰り、お使い</span><br>
+      <strong>ご (on'yomi: go)</strong> → kata serapan Cina (kango): <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">ご確認、ご連絡、ご利用</span><br><br>
+      <span style="color:#fcd34d">⚡ Ada pengecualian!</span> Beberapa kango pakai お: <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お電話、お食事、お料理</span> — ini sudah membaur ke dalam wago karena sering dipakai.
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kata Biasa</th>
+            <th>Tipe</th>
+            <th>Sonkeigo (お／ごになる)</th>
+            <th>Contoh Kalimat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="jp"><ruby>読む<rt>よむ</rt></ruby></span></td>
+            <td><span class="badge-type badge-wago">和語</span></td>
+            <td><span class="jp" style="color:#93c5fd"><ruby>お読みになる<rt>およみになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">先生はこの本を<strong style="color:#93c5fd">お読みになりましたか</strong>？</div>
+              <div class="jp-tr">Apakah sensei sudah membaca buku ini?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>使う<rt>つかう</rt></ruby></span></td>
+            <td><span class="badge-type badge-wago">和語</span></td>
+            <td><span class="jp" style="color:#93c5fd"><ruby>お使いになる<rt>おつかいになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">このペンを<strong style="color:#93c5fd">お使いになりますか</strong>？</div>
+              <div class="jp-tr">Apakah Anda akan menggunakan pulpen ini?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>帰る<rt>かえる</rt></ruby></span></td>
+            <td><span class="badge-type badge-wago">和語</span></td>
+            <td><span class="jp" style="color:#93c5fd"><ruby>お帰りになる<rt>おかえりになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">何時に<strong style="color:#93c5fd">お帰りになりますか</strong>？</div>
+              <div class="jp-tr">Jam berapa Anda akan pulang?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>待つ<rt>まつ</rt></ruby></span></td>
+            <td><span class="badge-type badge-wago">和語</span></td>
+            <td><span class="jp" style="color:#93c5fd"><ruby>お待ちになる<rt>おまちになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">少々<strong style="color:#93c5fd">お待ちになってください</strong>。</div>
+              <div class="jp-tr">Mohon tunggu sebentar.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>書く<rt>かく</rt></ruby></span></td>
+            <td><span class="badge-type badge-wago">和語</span></td>
+            <td><span class="jp" style="color:#93c5fd"><ruby>お書きになる<rt>おかきになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">こちらにお名前を<strong style="color:#93c5fd">お書きになってください</strong>。</div>
+              <div class="jp-tr">Mohon tulis nama Anda di sini.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>確認する<rt>かくにんする</rt></ruby></span></td>
+            <td><span class="badge-type badge-kango">漢語</span></td>
+            <td><span class="jp" style="color:#c4b5fd"><ruby>ご確認になる<rt>ごかくにんになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">資料を<strong style="color:#c4b5fd">ご確認になりましたか</strong>？</div>
+              <div class="jp-tr">Apakah Anda sudah mengkonfirmasi dokumennya?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>利用する<rt>りようする</rt></ruby></span></td>
+            <td><span class="badge-type badge-kango">漢語</span></td>
+            <td><span class="jp" style="color:#c4b5fd"><ruby>ご利用になる<rt>ごりようになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">このサービスを<strong style="color:#c4b5fd">ご利用になりますか</strong>？</div>
+              <div class="jp-tr">Apakah Anda akan menggunakan layanan ini?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>連絡する<rt>れんらくする</rt></ruby></span></td>
+            <td><span class="badge-type badge-kango">漢語</span></td>
+            <td><span class="jp" style="color:#c4b5fd"><ruby>ご連絡になる<rt>ごれんらくになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">いつ<strong style="color:#c4b5fd">ご連絡になりますか</strong>？</div>
+              <div class="jp-tr">Kapan Anda akan menghubungi?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>出発する<rt>しゅっぱつする</rt></ruby></span></td>
+            <td><span class="badge-type badge-kango">漢語</span></td>
+            <td><span class="jp" style="color:#c4b5fd"><ruby>ご出発になる<rt>ごしゅっぱつになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">何時に<strong style="color:#c4b5fd">ご出発になりますか</strong>？</div>
+              <div class="jp-tr">Jam berapa Anda akan berangkat?</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>🔁 Variasi Pola yang Sama Kesopanannya</h4>
+    <div class="info-box">
+      Pola お〜になる bisa diperpendek menjadi <strong>お〜です</strong> (lebih sopan, lebih langsung) atau <strong>お〜でいらっしゃる</strong> (sangat formal).<br><br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お読みになりますか？</span> ≒ <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お読みですか？</span><br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お帰りになりましたか？</span> ≒ <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お帰りですか？</span>
+    </div>
+
+    <div class="danger-box">
+      <strong>⚠️ Kata Kerja yang TIDAK bisa pakai pola ini:</strong><br>
+      Kata kerja 1 suku kata atau ます-stem pendek biasanya tidak wajar:<br>
+      ❌ <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お寝になる</span> (寝る → biasanya pakai お休みになる)<br>
+      ❌ <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">お見になる</span> (見る → biasanya pakai ご覧になる)<br>
+      ✅ Untuk kata kerja seperti ini, gunakan bentuk Level 1 (kata khusus).
+    </div>
+  </div>
+
+  <!-- ─── LEVEL 3 ─── -->
+  <div class="tab-content" id="content3">
+    <div class="sec-title">Level 3 — Bentuk Pasif sebagai Hormat (受身形)</div>
+    <p class="sec-desc">
+      Di bahasa Jepang, bentuk pasif (<strong>〜れる／られる</strong>) bisa dipakai bukan hanya untuk menyatakan "dikenai tindakan", tapi juga sebagai bentuk sonkeigo. Ini adalah cara yang lebih ringan dan alami dibanding Level 1 atau 2, tapi tetap lebih sopan dari bahasa biasa.
+    </p>
+
+    <div class="formula">
+      <strong>Cara membentuk (Godan / 五段動詞):</strong><br>
+      Ubah huruf akhir ke baris あ → tambah れる<br>
+      Contoh: <code>書く</code> → <code>書か</code> + <code>れる</code> = <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif;color:#86efac">書かれる</span><br><br>
+      <strong>Cara membentuk (Ichidan / 一段動詞):</strong><br>
+      Hapus る → tambah られる<br>
+      Contoh: <code>食べる</code> → <code>食べ</code> + <code>られる</code> = <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif;color:#86efac">食べられる</span>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kata Biasa</th>
+            <th>Bentuk Pasif/Hormat</th>
+            <th>Contoh Kalimat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="jp"><ruby>話す<rt>はなす</rt></ruby></span></td>
+            <td><span class="jp" style="color:#86efac"><ruby>話される<rt>はなされる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">社長は会議で大切なことを<strong style="color:#86efac">話されました</strong>。</div>
+              <div class="jp-tr">Direktur menyampaikan hal penting di rapat.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>来る<rt>くる</rt></ruby></span></td>
+            <td><span class="jp" style="color:#86efac"><ruby>来られる<rt>こられる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">先生は昨日この学校に<strong style="color:#86efac">来られました</strong>。</div>
+              <div class="jp-tr">Sensei datang ke sekolah ini kemarin.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>書く<rt>かく</rt></ruby></span></td>
+            <td><span class="jp" style="color:#86efac"><ruby>書かれる<rt>かかれる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">部長がレポートを<strong style="color:#86efac">書かれました</strong>。</div>
+              <div class="jp-tr">Manajer menulis laporan.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>帰る<rt>かえる</rt></ruby></span></td>
+            <td><span class="jp" style="color:#86efac"><ruby>帰られる<rt>かえられる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">社長は5時に<strong style="color:#86efac">帰られました</strong>。</div>
+              <div class="jp-tr">Direktur pulang jam 5.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>使う<rt>つかう</rt></ruby></span></td>
+            <td><span class="jp" style="color:#86efac"><ruby>使われる<rt>つかわれる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">お客様がこのサービスを<strong style="color:#86efac">使われています</strong>。</div>
+              <div class="jp-tr">Pelanggan sedang menggunakan layanan ini.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>食べる<rt>たべる</rt></ruby></span></td>
+            <td><span class="jp" style="color:#86efac"><ruby>食べられる<rt>たべられる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">先生は毎朝ご飯を<strong style="color:#86efac">食べられます</strong>。</div>
+              <div class="jp-tr">Sensei makan nasi setiap pagi.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>📊 Perbandingan Tingkat Kesopanan</h4>
+    <div class="compare-row">
+      <div class="compare-label">BIASA (普通体)</div>
+      <div class="compare-jp"><span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">社長は報告書を読んだ。</span> <span class="lv-tag lv-plain">Informal</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">LEVEL 3 — Pasif/礼儀的</div>
+      <div class="compare-jp"><span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">社長は報告書を<strong style="color:#86efac">読まれた</strong>。</span> <span class="lv-tag lv-l3">Agak Sopan</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">LEVEL 2 — お〜になる</div>
+      <div class="compare-jp"><span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">社長は報告書を<strong style="color:#93c5fd">お読みになった</strong>。</span> <span class="lv-tag lv-l2">Sopan</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">LEVEL 1 — Kata Khusus</div>
+      <div class="compare-jp"><span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">社長は報告書を<strong style="color:#fcd34d">ご覧になった</strong>。</span> <span class="lv-tag lv-l1">Sangat Sopan</span></div>
+    </div>
+
+    <div class="warn-box" style="margin-top:24px">
+      <strong>⚠️ Ambiguitas — Pasif vs Hormat!</strong><br>
+      Bentuk 〜られる bisa bermakna <strong>pasif</strong> (dikenai tindakan) atau <strong>hormat</strong> (sonkeigo). Kontekslah yang menentukan.<br><br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">先生に<strong>褒められました</strong></span>。→ PASIF: Saya <em>dipuji</em> oleh sensei.<br>
+      <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">先生が<strong>話されました</strong></span>。→ HORMAT: Sensei <em>berbicara</em>.<br><br>
+      Kunci: lihat partikelnya — <strong>に</strong> (agen pasif) vs <strong>が／は</strong> (subjek hormat).
+    </div>
+  </div>
+
+  <!-- ─── LEVEL 4 ─── -->
+  <div class="tab-content" id="content4">
+    <div class="sec-title">Level 4 — 二重敬語 (Niju Keigo)</div>
+    <p class="sec-desc">
+      二重敬語 (<ruby>にじゅうけいご<rt></rt></ruby>) adalah penggunaan <strong>dua lapis keigo sekaligus</strong> pada satu kata kerja — misalnya menggabungkan kata khusus Level 1 dengan bentuk pasif Level 3. Secara gramatikal ini dianggap <em>berlebihan</em>, namun dalam praktik nyata — terutama di pelayanan pelanggan, industri perhotelan, dan customer service — ekspresi ini sangat lazim didengar.
+    </p>
+
+    <div class="warn-box">
+      <strong>⚠️ Status Gramatikal:</strong><br>
+      Secara resmi, 二重敬語 <strong>tidak direkomendasikan</strong> oleh Badan Bahasa Jepang (文化庁). Namun kenyataannya, bentuk seperti <span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">おっしゃられる</span> sudah begitu luas dipakai sehingga banyak penutur asli tidak merasa ada yang aneh. Pahami ini sebagai bagian dari <em>keigo praktis</em>.
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">おっしゃる + られる</div>
+        <div class="card-main"><span style="color:#94a3b8">おっしゃる</span> <span class="card-arrow">→</span> <span style="color:#fca5a5">おっしゃられる</span></div>
+        <div class="card-ex">お客様が<span style="color:#fca5a5">おっしゃられた</span>通りです。<br><span style="color:#64748b;font-size:.78rem">Seperti yang dikatakan oleh pelanggan.</span></div>
+      </div>
+      <div class="card">
+        <div class="card-label">召し上がる + られる</div>
+        <div class="card-main"><span style="color:#94a3b8"><ruby>召し上がる<rt>めしあがる</rt></ruby></span> <span class="card-arrow">→</span> <span style="color:#fca5a5"><ruby>召し上がられる<rt>めしあがられる</rt></ruby></span></div>
+        <div class="card-ex">どうぞ<span style="color:#fca5a5">召し上がられて</span>ください。<br><span style="color:#64748b;font-size:.78rem">Silakan menikmati makanannya.</span></div>
+      </div>
+      <div class="card">
+        <div class="card-label">いらっしゃる + られる</div>
+        <div class="card-main"><span style="color:#94a3b8">いらっしゃる</span> <span class="card-arrow">→</span> <span style="color:#fca5a5">いらっしゃられる</span></div>
+        <div class="card-ex">社長が<span style="color:#fca5a5">いらっしゃられます</span>。<br><span style="color:#64748b;font-size:.78rem">Direktur akan hadir.</span></div>
+      </div>
+      <div class="card">
+        <div class="card-label">なさる + られる</div>
+        <div class="card-main"><span style="color:#94a3b8">なさる</span> <span class="card-arrow">→</span> <span style="color:#fca5a5">なさられる</span></div>
+        <div class="card-ex">どのようになさられますか？<br><span style="color:#64748b;font-size:.78rem">Bagaimana Anda ingin melakukannya?</span></div>
+      </div>
+    </div>
+
+    <h4>🏨 Konteks Penggunaan yang Lazim</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Konteks</th><th>Level yang Direkomendasikan</th><th>Catatan</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="color:#94a3b8">Percakapan kantor sehari-hari</span></td>
+            <td><span class="lv-tag lv-l2">Level 2</span> atau <span class="lv-tag lv-l3">Level 3</span></td>
+            <td style="font-size:.85rem;color:#94a3b8">Cukup sopan, tidak berlebihan</td>
+          </tr>
+          <tr>
+            <td><span style="color:#94a3b8">Rapat formal / presentasi</span></td>
+            <td><span class="lv-tag lv-l1">Level 1</span> atau <span class="lv-tag lv-l2">Level 2</span></td>
+            <td style="font-size:.85rem;color:#94a3b8">Gunakan kata khusus jika tersedia</td>
+          </tr>
+          <tr>
+            <td><span style="color:#94a3b8">Customer service / hotel / dept. store</span></td>
+            <td><span class="lv-tag lv-l4">Level 4</span> diterima</td>
+            <td style="font-size:.85rem;color:#94a3b8">Meski berlebihan secara tata bahasa, ini sudah jadi norma industri</td>
+          </tr>
+          <tr>
+            <td><span style="color:#94a3b8">Email resmi / surat formal</span></td>
+            <td><span class="lv-tag lv-l1">Level 1</span> + <span class="lv-tag lv-l2">Level 2</span></td>
+            <td style="font-size:.85rem;color:#94a3b8">Hindari Level 4 dalam tulisan formal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Saran Praktis:</strong><br>
+      Jika Anda belajar untuk JLPT, cukup pahami Level 1–3 dengan baik. Level 4 lebih relevan untuk konteks kerja nyata di Jepang, khususnya di industri jasa. Untuk ujian, fokus pada mengenali (bukan hanya menghasilkan) ekspresi Level 4.
+    </div>
+  </div>
+
+  <!-- ─── KUIS ─── -->
+  <div class="tab-content" id="content5">
+    <div class="sec-title">Latihan Kuis — 練習問題</div>
+    <p class="sec-desc">Pilih bentuk sonkeigo yang tepat untuk melengkapi kalimat berikut. Terapkan apa yang sudah kamu pelajari!</p>
+
+    <div class="quiz-score" id="scoreDisplay">Skor: <span id="scoreNum">0</span> / <span id="totalNum">0</span></div>
+    <div id="quizContainer"></div>
+    <button onclick="resetQuiz()" style="margin-top:16px;padding:10px 24px;border-radius:10px;background:rgba(79,142,247,.15);border:1px solid #4f8ef7;color:#93c5fd;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">🔄 Ulangi Kuis</button>
+  </div>
+
+  <!-- ─── RINGKASAN ─── -->
+  <div class="tab-content" id="content6">
+    <div class="sec-title">Ringkasan — まとめ</div>
+    <p class="sec-desc">Panduan cepat semua level sonkeigo dalam satu halaman.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card" style="border-color:rgba(245,158,11,.3)">
+        <div class="summary-lv" style="color:#fcd34d">L1</div>
+        <div class="summary-name">特別な動詞</div>
+        <div class="summary-rule">Kata kerja khusus yang menggantikan sepenuhnya. Hafal satu per satu.</div>
+      </div>
+      <div class="summary-card" style="border-color:rgba(79,142,247,.3)">
+        <div class="summary-lv" style="color:#93c5fd">L2</div>
+        <div class="summary-name">お／ご〜になる</div>
+        <div class="summary-rule">Pola produktif. お untuk wago, ご untuk kango.</div>
+      </div>
+      <div class="summary-card" style="border-color:rgba(34,197,94,.3)">
+        <div class="summary-lv" style="color:#86efac">L3</div>
+        <div class="summary-name">〜れる／られる</div>
+        <div class="summary-rule">Bentuk pasif sebagai hormat. Lebih ringan, umum di percakapan.</div>
+      </div>
+      <div class="summary-card" style="border-color:rgba(239,68,68,.3)">
+        <div class="summary-lv" style="color:#fca5a5">L4</div>
+        <div class="summary-name">二重敬語</div>
+        <div class="summary-rule">Dua lapis keigo. Berlebihan secara tata bahasa, lazim di customer service.</div>
+      </div>
+    </div>
+
+    <h4>📐 Tingkat Kesopanan Relatif</h4>
+    <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:14px;padding:24px;margin-bottom:28px;">
+      <div class="polite-bar">
+        <div class="polite-label"><span style="font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif">普通体 (Biasa)</span><span>⭐</span></div>
+        <div class="polite-track"><div class="polite-fill" style="width:15%;background:#475569;"></div></div>
+      </div>
+      <div class="polite-bar">
+        <div class="polite-label"><span>Level 3 — 〜れる／られる</span><span>⭐⭐</span></div>
+        <div class="polite-track"><div class="polite-fill" style="width:45%;background:#22c55e;"></div></div>
+      </div>
+      <div class="polite-bar">
+        <div class="polite-label"><span>Level 2 — お／ご〜になる</span><span>⭐⭐⭐</span></div>
+        <div class="polite-track"><div class="polite-fill" style="width:68%;background:#4f8ef7;"></div></div>
+      </div>
+      <div class="polite-bar">
+        <div class="polite-label"><span>Level 1 — Kata Khusus</span><span>⭐⭐⭐⭐</span></div>
+        <div class="polite-track"><div class="polite-fill" style="width:85%;background:#7c3aed;"></div></div>
+      </div>
+      <div class="polite-bar">
+        <div class="polite-label"><span>Level 4 — 二重敬語</span><span>⭐⭐⭐⭐⭐</span></div>
+        <div class="polite-track"><div class="polite-fill" style="width:100%;background:linear-gradient(90deg,#7c3aed,#ef4444);"></div></div>
+      </div>
+    </div>
+
+    <h4>📋 Tabel Referensi Cepat Level 1</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Kata Biasa</th><th>Sonkeigo L1</th><th>Catatan</th></tr></thead>
+        <tbody>
+          <tr><td class="jp">いく・くる・いる</td><td class="jp" style="color:#fcd34d">いらっしゃる / おいでになる</td><td style="font-size:.83rem;color:#94a3b8">Paling sering dipakai</td></tr>
+          <tr><td class="jp">いう</td><td class="jp" style="color:#fcd34d">おっしゃる</td><td style="font-size:.83rem;color:#94a3b8">Konjugasi tidak biasa: おっしゃいます</td></tr>
+          <tr><td class="jp">たべる・のむ</td><td class="jp" style="color:#fcd34d">召し上がる</td><td style="font-size:.83rem;color:#94a3b8">Sering di konteks makanan/minuman</td></tr>
+          <tr><td class="jp">みる</td><td class="jp" style="color:#fcd34d">ご覧になる</td><td style="font-size:.83rem;color:#94a3b8">Juga dipakai untuk dokumen, film</td></tr>
+          <tr><td class="jp">する</td><td class="jp" style="color:#fcd34d">なさる</td><td style="font-size:.83rem;color:#94a3b8">なさいます (bukan なさります)</td></tr>
+          <tr><td class="jp">しっている</td><td class="jp" style="color:#fcd34d">ご存じだ</td><td style="font-size:.83rem;color:#94a3b8">Ingat: ご存じです (bukan ご存じいます)</td></tr>
+          <tr><td class="jp">ねる</td><td class="jp" style="color:#fcd34d">お休みになる</td><td style="font-size:.83rem;color:#94a3b8">Juga untuk "sedang istirahat"</td></tr>
+          <tr><td class="jp">くれる</td><td class="jp" style="color:#fcd34d">くださる</td><td style="font-size:.83rem;color:#94a3b8">くださいます (bukan くださります)</td></tr>
+          <tr><td class="jp">きる (pakai baju)</td><td class="jp" style="color:#fcd34d">お召しになる</td><td style="font-size:.83rem;color:#94a3b8">Khusus memakai pakaian</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- end wrap -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  // ─── Tab Switching ───
+  window.showTab = function(n) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('content' + n).classList.add('active');
+    document.getElementById('tab' + n).classList.add('active');
+    if (n === 5 && !quizBuilt) buildQuiz();
+  }
+
+  // ─── Quiz Data ───
+  const quizData = [
+    {
+      q: '先生、何時に学校に___ますか？(いる → Sonkeigo)',
+      options: ['います', 'いらっしゃい', 'おります', 'ございます'],
+      correct: 1,
+      explain: '「いる」の尊敬語は「いらっしゃる」。形はいらっしゃいます。'
+    },
+    {
+      q: 'どうぞこのケーキを___ください。(食べる → Sonkeigo)',
+      options: ['食べて', 'いただいて', '召し上がって', '食べられて'],
+      correct: 2,
+      explain: '「食べる」の尊敬語は「召し上がる」。お客様や目上の人に使う。'
+    },
+    {
+      q: '先生はもうこの報告書を___ですか？(読む → お〜になる)',
+      options: ['読まれます', 'お読みになり', 'ご読みになり', 'お読みに'],
+      correct: 1,
+      explain: '「読む」はwago → お + 読み + になる。お読みになりましたか？'
+    },
+    {
+      q: '山田さんを___ですか？ (知っている → Sonkeigo)',
+      options: ['ご知りですか', 'ご存じですか', '知られますか', 'お知りですか'],
+      correct: 1,
+      explain: '「知っている」の尊敬語は「ご存じだ」。ご存じです が正しい形。'
+    },
+    {
+      q: '先生が「明日休みです」と___ました。(言う → Sonkeigo)',
+      options: ['言われ', 'おっしゃい', 'おっしゃられ', 'お言いになり'],
+      correct: 1,
+      explain: '「言う」の尊敬語は「おっしゃる」。過去形はおっしゃいました。'
+    },
+    {
+      q: 'お客様がこのサービスを___います。(使う → 受身形/Level 3)',
+      options: ['お使いになって', '使われて', 'ご使用して', 'お使いされて'],
+      correct: 1,
+      explain: '「使う」の受身形（Level 3）は「使われる」。'
+    },
+    {
+      q: '部長はこちらのお部屋で___になります。(仕事する → お〜になる)',
+      options: ['お仕事に', 'ご仕事に', 'お仕事され', 'ご仕事され'],
+      correct: 1,
+      explain: '「仕事する」はkango → ご + 仕事 + になる。ご仕事になります。'
+    },
+    {
+      q: '社長は先ほど___になりました。(帰る → お〜になる)',
+      options: ['ご帰り', 'お帰り', 'お帰られ', 'ご帰られ'],
+      correct: 1,
+      explain: '「帰る」はwago → お + 帰り + になる。お帰りになりました。'
+    },
+  ];
+
+  let score = 0, answered = 0;
+  let quizBuilt = false;
+
+  function buildQuiz() {
+    quizBuilt = true;
+    score = 0; answered = 0;
+    updateScore();
+    const container = document.getElementById('quizContainer');
+    container.innerHTML = '';
+    quizData.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.id = 'qcard' + i;
+      card.innerHTML = `
+        <div class="quiz-q" style="font-size:.88rem;color:#64748b;margin-bottom:8px">問題 ${i+1} / ${quizData.length}</div>
+        <div class="quiz-q">${q.q.replace(/___/, '<span class="blank">＿＿</span>')}</div>
+        <div class="quiz-options">
+          ${q.options.map((opt, j) => `<button class="quiz-opt" onclick="checkAnswer(${i},${j})" id="qopt${i}_${j}">${opt}</button>`).join('')}
+        </div>
+        <div class="quiz-feedback" id="qfb${i}"></div>
+      `;
+      container.appendChild(card);
+    });
+    document.getElementById('totalNum').textContent = quizData.length;
+  }
+
+  window.checkAnswer = function checkAnswer(qi, oi) {
+    const q = quizData[qi];
+    if (document.getElementById('qcard' + qi).dataset.done) return;
+    document.getElementById('qcard' + qi).dataset.done = '1';
+    answered++;
+    const fb = document.getElementById('qfb' + qi);
+    if (oi === q.correct) {
+      score++;
+      document.getElementById('qopt' + qi + '_' + oi).classList.add('correct');
+      fb.innerHTML = '<span style="color:#86efac">✅ Benar!</span> ' + q.explain;
+    } else {
+      document.getElementById('qopt' + qi + '_' + oi).classList.add('wrong');
+      document.getElementById('qopt' + qi + '_' + q.correct).classList.add('correct');
+      fb.innerHTML = '<span style="color:#fca5a5">❌ Salah.</span> ' + q.explain;
+    }
+    updateScore();
+    if (answered === quizData.length) {
+      const pct = Math.round(score / quizData.length * 100);
+      const msg = pct === 100 ? '🎉 Sempurna! すごい！' : pct >= 70 ? '👍 Bagus! まあまあですね。' : '📚 Perlu belajar lagi! もっと練習しよう！';
+      const banner = document.createElement('div');
+      banner.style.cssText = 'margin-top:20px;background:rgba(79,142,247,.1);border:1px solid #4f8ef7;border-radius:14px;padding:20px;text-align:center;font-size:1.1rem;';
+      banner.innerHTML = `${msg}<br><span style="color:#64748b;font-size:.9rem;margin-top:6px;display:block">Skor akhir: ${score}/${quizData.length} (${pct}%)</span>`;
+      document.getElementById('quizContainer').appendChild(banner);
+    }
+  }
+
+  function updateScore() {
+    document.getElementById('scoreNum').textContent = score;
+  }
+
+  window.resetQuiz = function resetQuiz() {
+    quizBuilt = false;
+    buildQuiz();
+  }
+
+  // Mobile: add data-label to all table cells from header text
+  document.querySelectorAll('.tbl-wrap table').forEach(function(table) {
+    var headers = Array.from(table.querySelectorAll('thead th')).map(function(th) {
+      return th.textContent.trim();
+    });
+    table.querySelectorAll('tbody tr').forEach(function(row) {
+      Array.from(row.querySelectorAll('td')).forEach(function(td, i) {
+        td.setAttribute('data-label', headers[i] || '');
+      });
+    });
+  });
+
+  }); // end DOMContentLoaded
+
+</script>
+</body>
+</html>
