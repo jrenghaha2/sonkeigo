@@ -2,277 +2,265 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#EFF2F1">
   <title>尊敬語 — Sonkeigo Interaktif JLPT N4/N3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:       #ffffff;
-      --surface:  #f8f9fa;
-      --card:     #ffffff;
-      --border:   #e5e7eb;
-      --accent:   #2563eb;
-      --text:     #1f2937;
-      --muted:    #6b7280;
-      --blue-bg:  #eff6ff;
-      --red-bg:   #fef2f2;
-      --green-bg: #f0fdf4;
-      --yellow-bg:#fffbeb;
-      --font-sans: 'Inter', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
-      --font-serif: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+      --paper:#EFF2F1; --panel:#E3E8E8; --raised:#FAFBFA; --line:#C6CED2;
+      --ink:#1B2233; --muted:#566171;
+      --yama:#223A6B; --yama-deep:#162A52; --yama-text:#223A6B; --yama-wash:#F3E6C3; --mark:#EFCB78; --gold:#C98A12;
+      --ai:#223A6B;
+      --moegi:#2C6A4D; --moegi-wash:#DAEADF;
+      --hi:#A3362F; --hi-wash:#F1D9D6;
+      --jp:'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;
+      --sans:'Plus Jakarta Sans','Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;
+      --bar:54px;
     }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:calc(var(--bar) + 16px); }
+    body { background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.75; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    :focus-visible { outline:2px solid var(--yama-text); outline-offset:3px; }
+    button { font-family:inherit; }
+    ruby rt { font-size:.6em; color:var(--muted); font-weight:400; }
+    em { font-style:normal; font-weight:700; color:var(--yama-text); }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Top bar */
+    .topbar { position:sticky; top:0; z-index:60; height:var(--bar); background:var(--paper); border-bottom:1px solid var(--line);
+      padding:0 max(20px, calc((100% - 1080px) / 2 + 24px)); display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .topbar-brand { font-family:var(--jp); font-weight:800; font-size:1.05rem; color:var(--yama-text); white-space:nowrap; }
+    .topbar-brand span { font-family:var(--sans); font-weight:500; font-size:.9rem; color:var(--muted); margin-left:.5em; }
+    .btn-sm { padding:7px 14px; border:1px solid var(--line); background:transparent; color:var(--ink); font-size:.85rem; font-weight:600; cursor:pointer; border-radius:2px; }
+    .btn-sm:hover { border-color:var(--yama-text); color:var(--yama-text); }
+    .wrap { max-width:1080px; margin:0 auto; padding:0 24px 96px; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
+    /* Hero: tiga kanji naik bertahap */
+    .hero { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr); gap:56px; align-items:end; padding:64px 0; border-bottom:1px solid var(--line); margin-bottom:56px; }
+    .hero-kana { font-size:.95rem; color:var(--muted); letter-spacing:.38em; margin-bottom:4px; }
+    .hero-kanji { font-family:var(--jp); font-weight:800; color:var(--yama-text); font-size:clamp(4.6rem,12vw,9rem); line-height:1.05; letter-spacing:.02em; padding-top:.3em; white-space:nowrap; }
+    .hero-kanji span { display:inline-block; --d:0em; transform:translateY(var(--d)); animation:rise .8s cubic-bezier(.2,.8,.2,1) both; animation-delay:calc(var(--i) * .16s + .1s); }
+    .hero-kanji span:nth-child(1){ --i:0; --d:0em; }
+    .hero-kanji span:nth-child(2){ --i:1; --d:-.11em; }
+    .hero-kanji span:nth-child(3){ --i:2; --d:-.22em; }
+    @keyframes rise { from { transform:translateY(calc(var(--d) + .4em)); opacity:0; } to { transform:translateY(var(--d)); opacity:1; } }
+    .hero-sub { font-weight:700; font-size:1.15rem; margin-top:6px; }
+    .hero-desc { max-width:52ch; margin-top:14px; }
+    .hero-desc strong { color:var(--yama-text); }
+    .badge-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:24px; }
+    .badge { padding:3px 11px; border:1px solid var(--line); border-radius:2px; font-size:.82rem; font-weight:500; color:var(--muted); }
+
+    .demo { background:var(--raised); border:1px solid var(--line); border-radius:3px; padding:22px 24px; }
+    .demo-top { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+    .demo-title { font-weight:700; font-size:.98rem; }
+    .demo-state { font-size:.82rem; font-weight:600; color:var(--muted); }
+    .demo.is-raised .demo-state { color:var(--yama-text); }
+    .demo-sentence { font-family:var(--jp); font-size:clamp(1.55rem,3.2vw,2rem); font-weight:500; line-height:1.5; margin:18px 0 4px; min-height:3em; }
+    .demo-word { display:inline-block; transition:transform .5s cubic-bezier(.3,.8,.25,1), color .3s; }
+    .demo.is-raised .demo-word { transform:translateY(-.3em); color:var(--yama-text); font-weight:800; background:linear-gradient(transparent 62%,var(--mark) 62%,var(--mark) 96%,transparent 96%); }
+    .demo-tr { color:var(--muted); font-size:.92rem; }
+    .demo-note { font-size:.88rem; margin-top:4px; min-height:1.6em; }
+    .demo-btn { margin-top:16px; padding:11px 20px; min-height:44px; background:var(--yama-text); color:#fff; border:0; border-radius:2px; font-weight:700; font-size:.92rem; cursor:pointer; }
+    .demo-btn:hover { background:#162A52; }
+
+    /* Shell: rel samping + isi */
+    .shell { display:grid; grid-template-columns:196px minmax(0,1fr); gap:64px; align-items:start; }
+    .tabs { position:sticky; top:calc(var(--bar) + 24px); display:flex; flex-direction:column; border-left:1px solid var(--line); }
+    .tab-btn { display:block; width:100%; text-align:left; padding:9px 0 9px 18px; margin-left:-1px; background:none; border:0; border-left:3px solid transparent; color:var(--muted); font-size:.95rem; font-weight:500; line-height:1.35; cursor:pointer; flex:none; min-width:0; }
+    .tab-btn .lv { display:block; font-size:.76rem; font-weight:500; color:var(--muted); margin:0; }
+    .tab-btn:hover { color:var(--ink); background:none; }
+    .tab-btn.active { border-left-color:var(--yama); color:var(--ink); font-weight:700; }
+    .tab-btn.active .lv { color:var(--yama-text); }
+    #tab5 { margin-top:20px; }
+    .tab-content { display:none; min-width:0; }
+    .tab-content.active { display:block; animation:swap .18s ease; }
+    @keyframes swap { from { opacity:0; } to { opacity:1; } }
+
+    .sec-title { font-weight:800; letter-spacing:-.01em; font-size:clamp(1.5rem,3vw,2rem); line-height:1.3; margin-bottom:14px; text-wrap:balance; }
+    .sec-desc { max-width:62ch; margin-bottom:8px; }
+    h4 { font-size:1.05rem; font-weight:700; margin:48px 0 16px; padding-top:18px; border-top:1px solid var(--line); }
+    h4 + .sec-desc { margin-bottom:16px; }
+
+    /* Kotak penjelasan */
+    .box { margin:28px 0; max-width:64ch; }
+    .box > strong:first-child { display:block; font-weight:700; margin-bottom:6px; font-size:.98rem; }
+    .info-box { padding:20px 0; border-top:2px solid var(--yama); border-bottom:2px solid var(--yama); font-size:1.05rem; line-height:1.8; }
+    .info-box > strong:first-child { color:var(--yama-text); }
+    .info-box > strong:not(:first-child) { color:var(--yama-text); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px; }
+    .warn-box, .tip-box, .danger-box { position:relative; padding:18px 22px 18px 64px; border-radius:3px; }
+    .warn-box::before, .tip-box::before, .danger-box::before { position:absolute; left:22px; top:19px; width:28px; height:28px; border-radius:50%; color:#fff; font-weight:800; text-align:center; line-height:28px; }
+    .warn-box { background:var(--yama-wash); color:#3A2A06; }
+    .warn-box::before { content:"!"; background:var(--gold); }
+    .tip-box { background:var(--moegi-wash); color:#16372A; }
+    .tip-box::before { content:"\2713"; background:var(--moegi); }
+    .tip-box > strong:not(:first-child) { color:var(--moegi); }
+    .danger-box { background:var(--hi-wash); color:#4A1512; }
+    .danger-box::before { content:"\00D7"; background:var(--hi); font-size:1.2rem; }
+    .box .jp strong { color:var(--hi); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:3px; }
+    .box-inline-strong { display:inline; }
+
+    /* Rumus */
+    .formula { background:var(--panel); border-radius:3px; padding:20px 24px; margin:24px 0; line-height:2.05; font-size:.95rem; }
+    .formula-title { display:block; font-weight:700; margin-bottom:6px; }
+    .formula code { font-family:var(--sans); font-weight:700; font-size:.95em; color:var(--yama-text); background:var(--raised); border:1px solid var(--line); border-radius:2px; padding:1px 9px; }
+    .formula-desc { display:block; color:var(--muted); font-size:.88rem; margin:6px 0 0; }
+
+    /* Tabel */
+    .tbl-wrap { margin:24px 0 36px; overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; text-align:left; }
+    thead th { padding:0 18px 10px 0; font-size:.82rem; font-weight:700; color:var(--muted); border-bottom:2px solid var(--ink); white-space:nowrap; }
+    td { padding:16px 18px 16px 0; border-bottom:1px solid var(--line); vertical-align:top; font-size:.95rem; }
+    tbody tr:last-child td { border-bottom:0; }
+    .jp { font-family:var(--jp); font-size:1.1rem; font-weight:700; }
+    td:first-child .jp { color:var(--muted); font-weight:500; }
+    #content1 td:nth-child(2) .jp:first-child { color:var(--yama-text); font-weight:800; font-size:1.25rem; }
+    .jp-highlight { color:var(--yama-text); font-weight:800; background:linear-gradient(transparent 62%,var(--mark) 62%,var(--mark) 96%,transparent 96%); }
+    td .jp.jp-highlight { background:none; font-size:1.2rem; }
+    .jp-example { font-family:var(--jp); font-size:1.08rem; line-height:1.7; }
+    .jp-tr { font-size:.88rem; color:var(--muted); margin-top:2px; }
+    .box .jp-tr { margin-top:0; }
+    .badge-type { display:inline-block; font-size:.75rem; font-weight:700; padding:1px 8px; border:1px solid var(--line); border-radius:2px; color:var(--muted); white-space:nowrap; }
+    .tbl-wrap td[style] { font-size:.88rem; }
+
+    /* Kartu niju keigo */
+    .card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0 36px; margin:32px 0; }
+    .card { border-top:3px solid var(--hi); padding-top:14px; }
+    .card-label { font-size:.84rem; font-weight:700; color:var(--muted); }
+    .card-main { margin:4px 0 8px; }
+    .card-main .jp { font-size:1.55rem; font-weight:800; color:var(--ink); text-decoration:line-through; text-decoration-color:var(--hi); text-decoration-thickness:2px; }
+    .card-ex { font-family:var(--jp); font-size:1rem; line-height:1.6; padding-top:10px; border-top:1px solid var(--line); }
+    .card-ex span { display:block; font-family:var(--sans); font-size:.86rem; color:var(--muted); margin-top:4px; }
+
+    /* Kuis */
+    .quiz-score { text-align:right; font-weight:600; color:var(--muted); margin-bottom:18px; }
+    .quiz-score span { color:var(--yama-text); font-weight:800; font-size:1.15rem; }
+    .quiz-card { background:var(--raised); border:1px solid var(--line); border-radius:3px; padding:24px 26px 26px; margin-bottom:16px; }
+    .quiz-header { font-size:.84rem; font-weight:700; color:var(--muted); margin-bottom:0; }
+    .quiz-q { font-family:var(--jp); font-size:1.3rem; font-weight:500; line-height:1.8; margin:6px 0 20px; color:var(--ink); }
+    .quiz-q .blank { display:inline-block; min-width:3.2em; margin:0 .2em; text-align:center; border-bottom:2px solid var(--yama-text); color:var(--yama-text); font-weight:800; }
+    .quiz-q .blank.ok { color:var(--moegi); border-bottom-color:var(--moegi); }
+    .quiz-options { display:flex; flex-direction:row; flex-wrap:wrap; gap:10px; }
+    .quiz-opt { min-height:48px; padding:10px 22px; background:var(--paper); border:1.5px solid var(--line); border-radius:2px; font-family:var(--jp); font-size:1.1rem; font-weight:500; color:var(--ink); cursor:pointer; text-align:left; }
+    .quiz-opt:hover:not(:disabled) { border-color:var(--yama-text); background:var(--paper); }
+    .quiz-opt:disabled { cursor:default; }
+    .quiz-opt.correct { background:var(--moegi-wash); border-color:var(--moegi); color:#1E4E37; font-weight:700; }
+    .quiz-opt.correct::after { content:" \2713"; }
+    .quiz-opt.wrong { background:var(--hi-wash); border-color:var(--hi); color:#7C2420; }
+    .quiz-opt.wrong::after { content:" \2715"; }
+    .quiz-feedback { margin-top:16px; font-size:.95rem; min-height:1.5em; }
+    .quiz-feedback.ok strong { color:var(--moegi); }
+    .quiz-feedback.ng strong { color:var(--hi); }
+    .quiz-result { margin-top:24px; padding:20px; text-align:center; font-weight:700; background:var(--yama-wash); border-radius:3px; }
+    .quiz-result span { display:block; margin-top:6px; font-weight:500; color:var(--muted); font-size:.92rem; }
+    button.btn-outline { margin-top:8px; padding:9px 16px; min-height:40px; border:1px solid var(--line); background:transparent; border-radius:2px; font-weight:600; font-size:.88rem; color:var(--ink); cursor:pointer; }
+    button.btn-outline:hover { border-color:var(--yama-text); color:var(--yama-text); background:transparent; }
+
+    /* Ringkasan */
+    .summary-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 40px; margin:32px 0 8px; }
+    .summary-card { border-top:3px solid var(--yama); padding-top:14px; }
+    .summary-lv { font-size:.84rem; font-weight:700; color:var(--muted); text-transform:none; margin:0; }
+    .summary-name { font-family:var(--jp); font-size:1.3rem; font-weight:800; margin:2px 0 6px; color:var(--ink); }
+    .summary-rule { font-size:.93rem; }
+    .polite-bar { margin-bottom:18px; }
+    .polite-label { display:flex; justify-content:space-between; gap:12px; font-size:.9rem; margin-bottom:6px; }
+    .polite-label span:last-child { color:var(--muted); font-weight:600; }
+    .polite-track { height:10px; background:var(--panel); }
+    .polite-fill { height:100%; background:var(--yama); }
+    .polite-bar:nth-child(1) .polite-fill { background:#9AA5AE; }
+    .polite-bar:nth-child(2) .polite-fill { background:#6C7886; }
+    .polite-bar:nth-child(3) .polite-fill { background:var(--gold); }
+    .polite-bar:nth-child(4) .polite-fill { background:var(--yama); }
+    .polite-bar:nth-child(5) .polite-fill { background:var(--hi); }
+
+    @media (max-width:900px) {
+      .hero { grid-template-columns:1fr; gap:36px; padding:40px 0 44px; margin-bottom:0; }
+      .shell { display:block; }
+      .tabs { position:sticky; top:var(--bar); z-index:50; flex-direction:row; overflow-x:auto; border-left:0; border-bottom:1px solid var(--line); background:var(--paper); margin:0 -24px 32px; padding:0 24px; scrollbar-width:none; }
+      .tabs::-webkit-scrollbar { display:none; }
+      .tab-btn { width:auto; flex:0 0 auto; white-space:nowrap; padding:10px 14px; margin:0; border-left:0; border-bottom:3px solid transparent; text-align:left; }
+      .tab-btn.active { border-bottom-color:var(--yama); }
+      #tab5 { margin-top:0; }
     }
-
-    .wrap { max-width: 800px; margin: 0 auto; padding: 32px 20px 80px; }
-
-    /* ── Header ── */
-    header { text-align: center; padding: 40px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
-    .kanji-title {
-      font-family: var(--font-serif);
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 600;
-      color: #111;
-      line-height: 1.2;
+    @media (max-width:640px) {
+      .wrap { padding:0 18px 72px; }
+      .tabs { margin:0 -18px 28px; padding:0 18px; }
+      .topbar { padding:0 18px; }
+      .demo { padding:18px; }
+      .card-grid, .summary-grid { grid-template-columns:1fr; gap:24px; }
+      .warn-box, .tip-box, .danger-box { padding:16px 18px 16px 58px; }
+      .warn-box::before, .tip-box::before, .danger-box::before { left:18px; }
+      .tbl-wrap { overflow-x:visible; }
+      .tbl-wrap table, .tbl-wrap tbody { display:block; }
+      .tbl-wrap thead { display:none; }
+      .tbl-wrap tbody tr { display:block; padding:12px 0; border:0; border-bottom:1px solid var(--line); background:none; margin:0; }
+      .tbl-wrap tbody tr:last-child { border-bottom:0; }
+      .tbl-wrap td { display:grid; grid-template-columns:6.4rem 1fr; gap:10px; padding:5px 0; border-bottom:0; font-size:.93rem; }
+      .tbl-wrap td::before { content:attr(data-label); font-size:.8rem; font-weight:700; color:var(--muted); margin:0; text-transform:none; letter-spacing:0; }
+      .quiz-card { padding:20px 18px 22px; }
+      .quiz-q { font-size:1.2rem; }
     }
-    .furigana-title { font-size: 0.9rem; color: var(--muted); letter-spacing: 0.2em; margin-bottom: 8px; }
-    .sub-title { font-size: 1.05rem; color: var(--text); margin-top: 12px; }
-    
-    .badge-row { display: flex; gap: 8px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
-    .badge {
-      padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 500;
-      background: var(--surface); color: var(--muted); border: 1px solid var(--border);
-      text-transform: uppercase; letter-spacing: 0.05em;
-    }
-
-    /* ── Tab Bar ── */
-    .tabs {
-      display: flex; border-bottom: 1px solid var(--border);
-      margin-bottom: 32px; overflow-x: auto; gap: 0;
-    }
-    .tab-btn {
-      padding: 12px 16px; font-size: 0.9rem; font-weight: 500;
-      color: var(--muted); border: none; background: none; cursor: pointer;
-      white-space: nowrap; border-bottom: 2px solid transparent;
-      transition: all 0.2s; font-family: var(--font-sans);
-      flex: 1; min-width: 110px; text-align: center;
-    }
-    .tab-btn:hover { color: var(--text); background: var(--surface); }
-    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .tab-btn .lv { font-size: 0.65rem; color: var(--muted); display: block; margin-bottom: 2px; }
-    .tab-btn.active .lv { color: var(--accent); }
-
-    /* ── Content sections ── */
-    .tab-content { display: none; animation: fadeIn 0.3s ease; }
-    .tab-content.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ── Section header ── */
-    .sec-title { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 600; margin-bottom: 12px; color: #111; }
-    .sec-desc { color: var(--text); line-height: 1.7; margin-bottom: 24px; font-size: 1rem; }
-
-    /* ── Box Styles (Minimalist) ── */
-    .box {
-      border-left: 3px solid; padding: 16px 20px; margin-bottom: 24px;
-      font-size: 0.95rem; line-height: 1.7; background: var(--surface);
-    }
-    .info-box { border-color: var(--accent); }
-    .warn-box { border-color: #d97706; background: var(--yellow-bg); }
-    .tip-box { border-color: #059669; background: var(--green-bg); }
-    .danger-box { border-color: #dc2626; background: var(--red-bg); }
-    
-    .box strong { color: #111; display: block; margin-bottom: 8px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .box-inline-strong { display: inline; text-transform: none; letter-spacing: normal; color: inherit; font-weight: 600; }
-
-    /* ── Formula block ── */
-    .formula {
-      background: var(--surface); border: 1px solid var(--border);
-      padding: 20px; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.8;
-    }
-    .formula-title { font-weight: 600; color: #111; display: block; margin-bottom: 8px; }
-    .formula code {
-      background: #fff; color: var(--accent); border: 1px solid var(--border);
-      padding: 2px 8px; font-family: monospace; font-size: 0.9em;
-    }
-    .formula-desc { color: var(--muted); font-size: 0.85rem; display: block; margin: 8px 0; }
-
-    /* ── Table ── */
-    .tbl-wrap { overflow-x: auto; margin-bottom: 32px; border: 1px solid var(--border); }
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    thead th { background: var(--surface); padding: 12px 16px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
-    tbody tr { border-bottom: 1px solid var(--border); }
-    tbody tr:last-child { border-bottom: none; }
-    td { padding: 14px 16px; vertical-align: top; font-size: 0.95rem; }
-    
-    .jp { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 500; color: #111; }
-    .jp-highlight { color: var(--accent); font-weight: 600; }
-    .jp-example { font-family: var(--font-serif); font-size: 1rem; color: #111; }
-    .jp-tr { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
-    ruby rt { font-size: 0.6em; color: var(--muted); }
-    
-    .badge-type {
-      display: inline-block; font-size: 0.65rem; padding: 2px 6px;
-      vertical-align: middle; margin-left: 6px; border: 1px solid var(--border); background: #fff; color: var(--muted);
-    }
-
-    /* ── Card grid (Level 4) ── */
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .card {
-      background: var(--bg); border: 1px solid var(--border);
-      padding: 20px;
-    }
-    .card-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .card-main { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; color: #111; margin-bottom: 8px; }
-    .card-arrow { color: var(--muted); margin: 0 4px; font-size: 0.9rem; }
-    .card-ex { font-size: 0.85rem; color: var(--text); margin-top: 12px; font-family: var(--font-serif); line-height: 1.5; padding-top: 12px; border-top: 1px dotted var(--border); }
-    .card-ex span { color: var(--muted); font-size: 0.8rem; display: block; font-family: var(--font-sans); margin-top: 4px; }
-
-    /* ── Compare row ── */
-    .compare-row {
-      border-bottom: 1px solid var(--border); padding: 16px 0;
-      display: flex; flex-direction: column; gap: 4px;
-    }
-    .compare-row:last-child { border-bottom: none; margin-bottom: 24px; }
-    .compare-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .compare-jp { font-family: var(--font-serif); font-size: 1.05rem; color: #111; }
-    .lv-tag { display: inline-block; font-size: 0.7rem; color: var(--muted); margin-left: 8px; }
-
-    /* ── Quiz ── */
-    .quiz-card {
-      border: 1px solid var(--border); background: var(--bg);
-      padding: 24px; margin-bottom: 16px;
-    }
-    .quiz-header { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
-    .quiz-q { font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 20px; color: #111; }
-    .quiz-q .blank { display: inline-block; min-width: 60px; border-bottom: 1px solid #111; }
-    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-    .quiz-opt {
-      padding: 12px 16px; border: 1px solid var(--border); background: var(--surface);
-      cursor: pointer; font-family: var(--font-serif); font-size: 1rem; text-align: left;
-      transition: background 0.1s; color: var(--text);
-    }
-    .quiz-opt:hover { background: #e5e7eb; }
-    .quiz-opt.correct { background: var(--green-bg); border-color: #059669; color: #065f46; }
-    .quiz-opt.wrong { background: var(--red-bg); border-color: #dc2626; color: #991b1b; }
-    .quiz-feedback { margin-top: 16px; font-size: 0.9rem; line-height: 1.6; color: var(--text); }
-    .quiz-score { text-align: right; font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; }
-
-    /* ── Summary ── */
-    .summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
-    .summary-card { border: 1px solid var(--border); padding: 20px; background: var(--surface); }
-    .summary-lv { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
-    .summary-name { font-size: 1.1rem; font-weight: 600; color: #111; margin-bottom: 8px; font-family: var(--font-serif); }
-    .summary-rule { font-size: 0.85rem; color: var(--text); line-height: 1.5; }
-
-    /* ── Polite chart ── */
-    .polite-bar { margin-bottom: 16px; }
-    .polite-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text); margin-bottom: 6px; }
-    .polite-track { height: 4px; background: var(--border); width: 100%; }
-    .polite-fill { height: 100%; background: var(--muted); transition: width 0.5s ease; }
-
-    h4 { font-size: 1.1rem; font-weight: 600; margin: 32px 0 16px; color: #111; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-
-    button.btn-outline {
-      padding: 10px 20px; background: #fff; border: 1px solid var(--border); color: var(--text);
-      cursor: pointer; font-family: var(--font-sans); font-size: 0.9rem; margin-top: 16px;
-    }
-    button.btn-outline:hover { background: var(--surface); }
-
-    /* ── MOBILE RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .wrap { padding: 16px 16px 60px; }
-      header { padding: 20px 0; margin-bottom: 24px; }
-      .kanji-title { font-size: 2.2rem; }
-      .sub-title { font-size: 0.95rem; }
-      .sec-title { font-size: 1.3rem; }
-      
-      .tabs { margin-bottom: 24px; }
-      .tab-btn { padding: 12px 8px; font-size: 0.8rem; min-width: 90px; }
-
-      .box { padding: 16px; font-size: 0.9rem; }
-      .formula { padding: 16px; }
-
-      /* Minimalist Mobile Table (Card-style rows) */
-      .tbl-wrap { border: none; margin-bottom: 24px; }
-      .tbl-wrap table { display: block; }
-      .tbl-wrap thead { display: none; }
-      .tbl-wrap tbody { display: block; }
-      .tbl-wrap tbody tr {
-        display: block;
-        background: #fff;
-        border: 1px solid var(--border);
-        margin-bottom: 12px;
-      }
-      .tbl-wrap td {
-        display: flex;
-        flex-direction: column;
-        padding: 12px 16px;
-        font-size: 0.9rem;
-        border-bottom: 1px solid var(--surface);
-      }
-      .tbl-wrap td:last-child { border-bottom: none; }
-      .tbl-wrap td::before {
-        content: attr(data-label);
-        font-size: 0.7rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 4px;
-        display: block;
-      }
-
-      .jp { font-size: 1.05rem; }
-      .card-grid { grid-template-columns: 1fr; }
-      .summary-grid { grid-template-columns: 1fr; }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+    @media print {
+      .topbar, .tabs, .demo, .btn-outline, .quiz-score { display:none !important; }
+      body { background:#fff; }
+      .shell { display:block; }
+      .tab-content { display:block !important; page-break-before:always; }
+      #content1 { page-break-before:auto; }
+      .hero { padding:0 0 24px; margin-bottom:24px; grid-template-columns:1fr; }
+      .hero-kanji span { animation:none; opacity:1; }
     }
   </style>
 </head>
 <body>
+
+<div class="topbar">
+  <span class="topbar-brand">尊敬語<span>Sonkeigo</span></span>
+  <div class="topbar-actions"><button class="btn-sm" onclick="window.print()">Print</button></div>
+</div>
+
 <div class="wrap">
 
-  <!-- HEADER -->
-  <header>
-    <div class="kanji-title"><ruby>尊敬語<rt>そんけいご</rt></ruby></div>
-    <div class="furigana-title">そんけいご</div>
-    <div class="sub-title">Sonkeigo — Bahasa Penghormatan Jepang</div>
-    <div class="badge-row">
-      <span class="badge">JLPT N4</span>
-      <span class="badge">JLPT N3</span>
-      <span class="badge">Keigo <ruby>敬語<rt>けいご</rt></ruby></span>
+  <header class="hero">
+    <div class="hero-main">
+      <div class="hero-kana">そんけいご</div>
+      <h1 class="hero-kanji" aria-label="尊敬語"><span aria-hidden="true">尊</span><span aria-hidden="true">敬</span><span aria-hidden="true">語</span></h1>
+      <div class="hero-sub">Sonkeigo — Bahasa Penghormatan Jepang</div>
+      <div class="hero-desc">
+        Sonkeigo dipakai saat <strong>orang lain</strong> yang lebih tinggi (atasan, guru, tamu) melakukan sesuatu. Tujuannya meninggikan lawan bicara, bukan diri sendiri.
+      </div>
+      <div class="badge-row">
+        <span class="badge">JLPT N4</span>
+        <span class="badge">JLPT N3</span>
+        <span class="badge">Keigo <ruby>敬語<rt>けいご</rt></ruby></span>
+      </div>
     </div>
+    <aside class="demo" id="demo" aria-labelledby="demoTitle">
+      <div class="demo-top">
+        <div class="demo-title" id="demoTitle">Coba tinggikan kalimatnya</div>
+        <div class="demo-state" id="demoState">Biasa</div>
+      </div>
+      <div class="demo-sentence" aria-live="polite">先生が<span class="demo-word" id="demoWord">言います</span>。</div>
+      <div class="demo-tr">Sensei berkata.</div>
+      <div class="demo-note" id="demoNote">Bentuk sopan biasa (〜ます).</div>
+      <button class="demo-btn" id="demoBtn" type="button">Ubah ke sonkeigo</button>
+    </aside>
   </header>
 
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab(1)" id="tab1">
-      <span class="lv">LEVEL 1</span><ruby>動詞<rt>どうし</rt></ruby> Khusus
-    </button>
-    <button class="tab-btn" onclick="showTab(2)" id="tab2">
-      <span class="lv">LEVEL 2</span>お／ご〜になる
-    </button>
-    <button class="tab-btn" onclick="showTab(3)" id="tab3">
-      <span class="lv">LEVEL 3</span>Bentuk Pasif
-    </button>
-    <button class="tab-btn" onclick="showTab(4)" id="tab4">
-      <span class="lv">LEVEL 4</span><ruby>二重敬語<rt>にじゅうけいご</rt></ruby>
-    </button>
-    <button class="tab-btn" onclick="showTab(5)" id="tab5">
-      <span class="lv">LATIHAN</span>Kuis
-    </button>
-    <button class="tab-btn" onclick="showTab(6)" id="tab6">
-      <span class="lv">REFERENSI</span>Ringkasan
-    </button>
-  </div>
+  <div class="shell">
+    <nav class="tabs" aria-label="Bagian materi">
+      <button class="tab-btn active" onclick="showTab(1)" id="tab1" aria-current="true"><span class="lv">Level 1</span><ruby>動詞<rt>どうし</rt></ruby> Khusus</button>
+      <button class="tab-btn" onclick="showTab(2)" id="tab2"><span class="lv">Level 2</span>お／ご〜になる</button>
+      <button class="tab-btn" onclick="showTab(3)" id="tab3"><span class="lv">Level 3</span>Bentuk Pasif</button>
+      <button class="tab-btn" onclick="showTab(4)" id="tab4"><span class="lv">Level 4</span><ruby>二重敬語<rt>にじゅうけいご</rt></ruby></button>
+      <button class="tab-btn" onclick="showTab(5)" id="tab5"><span class="lv">Latihan</span>Kuis</button>
+      <button class="tab-btn" onclick="showTab(6)" id="tab6"><span class="lv">Referensi</span>Ringkasan</button>
+    </nav>
 
-  <!-- ─── LEVEL 1 ─── -->
+    <main class="panes">
+
+<!-- ─── LEVEL 1 ─── -->
   <div class="tab-content active" id="content1">
     <div class="sec-title">Level 1 — Kata Kerja Khusus (特別な<ruby>動詞<rt>どうし</rt></ruby>)</div>
     <p class="sec-desc">
@@ -749,20 +737,43 @@
     </div>
 
   </div>
-
+</main>
+  </div><!-- end shell -->
 </div><!-- end wrap -->
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    window.showTab = function(n) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById('content' + n).classList.add('active');
-      document.getElementById('tab' + n).classList.add('active');
-      if (n === 5 && !quizBuilt) buildQuiz();
-    }
+document.addEventListener("DOMContentLoaded", function() {
 
-    const quizData = [
+  /* Demo hero: kata kerja naik saat ditinggikan */
+  (function() {
+    const demo = document.getElementById('demo');
+    const btn = document.getElementById('demoBtn');
+    const word = document.getElementById('demoWord');
+    const state = document.getElementById('demoState');
+    const note = document.getElementById('demoNote');
+    btn.addEventListener('click', function() {
+      const raised = demo.classList.toggle('is-raised');
+      word.textContent = raised ? 'おっしゃいます' : '言います';
+      state.textContent = raised ? 'Sonkeigo' : 'Biasa';
+      note.textContent = raised ? '言う diganti おっしゃる: kata kerja khusus sonkeigo.' : 'Bentuk sopan biasa (〜ます).';
+      btn.textContent = raised ? 'Kembali ke biasa' : 'Ubah ke sonkeigo';
+    });
+  })();
+
+  window.showTab = function(n) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('active'); btn.removeAttribute('aria-current'); });
+    document.getElementById('content' + n).classList.add('active');
+    const tab = document.getElementById('tab' + n);
+    tab.classList.add('active');
+    tab.setAttribute('aria-current', 'true');
+    if (n === 5 && !quizBuilt) buildQuiz();
+    const shellTop = document.querySelector('.shell').getBoundingClientRect().top + window.scrollY - 70;
+    if (window.scrollY > shellTop) window.scrollTo(0, Math.max(0, shellTop));
+    tab.scrollIntoView({ block: 'nearest', inline: 'center' });
+  };
+
+  const quizData = [
       {
         q: '先生、何時に学校に___ますか？(いる → Sonkeigo)',
         options: ['います', 'いらっしゃい', 'おります', 'ございます'],
@@ -813,83 +824,77 @@
       }
     ];
 
-    let score = 0, answered = 0;
-    let quizBuilt = false;
+  let score = 0, answered = 0, quizBuilt = false;
 
-    function buildQuiz() {
-      quizBuilt = true;
-      score = 0; answered = 0;
-      updateScore();
-      const container = document.getElementById('quizContainer');
-      container.innerHTML = '';
-      quizData.forEach((q, i) => {
-        const card = document.createElement('div');
-        card.className = 'quiz-card';
-        card.id = 'qcard' + i;
-        card.innerHTML = `
-          <div class="quiz-header">Pertanyaan ${i+1} dari ${quizData.length}</div>
-          <div class="quiz-q">${q.q.replace(/___/, '<span class="blank"></span>')}</div>
-          <div class="quiz-options">
-            ${q.options.map((opt, j) => `<button class="quiz-opt" onclick="checkAnswer(${i},${j})" id="qopt${i}_${j}">${opt}</button>`).join('')}
-          </div>
-          <div class="quiz-feedback" id="qfb${i}"></div>
-        `;
-        container.appendChild(card);
-      });
-      document.getElementById('totalNum').textContent = quizData.length;
-    }
+  function updateScore() { document.getElementById('scoreNum').textContent = score; }
 
-    window.checkAnswer = function checkAnswer(qi, oi) {
-      const q = quizData[qi];
-      if (document.getElementById('qcard' + qi).dataset.done) return;
-      document.getElementById('qcard' + qi).dataset.done = '1';
-      answered++;
-      const fb = document.getElementById('qfb' + qi);
-      
-      if (oi === q.correct) {
-        score++;
-        document.getElementById('qopt' + qi + '_' + oi).classList.add('correct');
-        fb.innerHTML = '<strong>Benar!</strong> ' + q.explain;
-      } else {
-        document.getElementById('qopt' + qi + '_' + oi).classList.add('wrong');
-        document.getElementById('qopt' + qi + '_' + q.correct).classList.add('correct');
-        fb.innerHTML = '<strong>Salah.</strong> ' + q.explain;
-      }
-      
-      updateScore();
-      
-      if (answered === quizData.length) {
-        const pct = Math.round(score / quizData.length * 100);
-        let msg = pct === 100 ? 'Luar biasa! Skor sempurna.' : pct >= 70 ? 'Hasil yang bagus!' : 'Terus berlatih untuk hasil lebih baik!';
-        const banner = document.createElement('div');
-        banner.style.cssText = 'margin-top:24px; border:1px solid var(--border); padding:20px; text-align:center; font-weight:500; background:var(--surface);';
-        banner.innerHTML = `${msg}<br><span style="color:var(--muted); font-size:0.9rem; font-weight:normal; margin-top:8px; display:block">Skor Akhir: ${score}/${quizData.length} (${pct}%)</span>`;
-        document.getElementById('quizContainer').appendChild(banner);
-      }
-    }
-
-    function updateScore() {
-      document.getElementById('scoreNum').textContent = score;
-    }
-
-    window.resetQuiz = function resetQuiz() {
-      quizBuilt = false;
-      buildQuiz();
-    }
-
-    // Mobile: add data-label for table responsiveness
-    document.querySelectorAll('.tbl-wrap table').forEach(function(table) {
-      var headers = Array.from(table.querySelectorAll('thead th')).map(function(th) {
-        return th.textContent.trim();
-      });
-      table.querySelectorAll('tbody tr').forEach(function(row) {
-        Array.from(row.querySelectorAll('td')).forEach(function(td, i) {
-          td.setAttribute('data-label', headers[i] || '');
-        });
-      });
+  function buildQuiz() {
+    quizBuilt = true;
+    score = 0; answered = 0; updateScore();
+    document.getElementById('totalNum').textContent = quizData.length;
+    const container = document.getElementById('quizContainer');
+    container.innerHTML = '';
+    quizData.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.id = 'qcard' + i;
+      card.innerHTML = `
+        <div class="quiz-header">Pertanyaan ${i+1} dari ${quizData.length}</div>
+        <div class="quiz-q">${q.q.replace(/___/, '<span class="blank"></span>')}</div>
+        <div class="quiz-options">
+          ${q.options.map((opt, j) => `<button class="quiz-opt" onclick="checkAnswer(${i},${j})" id="qopt${i}_${j}">${opt}</button>`).join('')}
+        </div>
+        <div class="quiz-feedback" id="qfb${i}"></div>
+      `;
+      container.appendChild(card);
     });
+  }
 
+  window.checkAnswer = function(qi, oi) {
+    const q = quizData[qi];
+    const card = document.getElementById('qcard' + qi);
+    if (card.dataset.done) return;
+    card.dataset.done = '1';
+    answered++;
+    card.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('qfb' + qi);
+    const blank = card.querySelector('.blank');
+    blank.innerHTML = q.options[q.correct];
+    blank.classList.add('ok');
+    if (oi === q.correct) {
+      score++;
+      document.getElementById('qopt' + qi + '_' + oi).classList.add('correct');
+      fb.className = 'quiz-feedback ok';
+      fb.innerHTML = '<strong>Benar!</strong> ' + q.explain;
+    } else {
+      document.getElementById('qopt' + qi + '_' + oi).classList.add('wrong');
+      document.getElementById('qopt' + qi + '_' + q.correct).classList.add('correct');
+      fb.className = 'quiz-feedback ng';
+      fb.innerHTML = '<strong>Salah.</strong> ' + q.explain;
+    }
+    updateScore();
+    if (answered === quizData.length) {
+      const pct = Math.round(score / quizData.length * 100);
+      const msg = pct === 100 ? 'Luar biasa! Skor sempurna.' : pct >= 70 ? 'Hasil yang bagus!' : 'Terus berlatih untuk hasil lebih baik!';
+      const banner = document.createElement('div');
+      banner.className = 'quiz-result';
+      banner.innerHTML = `${msg}<span>Skor Akhir: ${score}/${quizData.length} (${pct}%)</span>`;
+      document.getElementById('quizContainer').appendChild(banner);
+    }
+  };
+
+  window.resetQuiz = function() { quizBuilt = false; buildQuiz(); };
+
+  // Mobile: data-label untuk tabel responsif
+  document.querySelectorAll('.tbl-wrap table').forEach(function(table) {
+    var headers = Array.from(table.querySelectorAll('thead th')).map(function(th) { return th.textContent.trim(); });
+    table.querySelectorAll('tbody tr').forEach(function(row) {
+      Array.from(row.querySelectorAll('td')).forEach(function(td, i) { td.setAttribute('data-label', headers[i] || ''); });
+    });
   });
+
+});
 </script>
+
 </body>
 </html>
