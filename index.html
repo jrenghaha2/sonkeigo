@@ -201,6 +201,85 @@
       .quiz-card { padding:20px 18px 22px; }
       .quiz-q { font-size:1.2rem; }
     }
+    /* ══════════════════════════════════════════
+       PENYEMPURNAAN MOBILE (hanya tambahan, tidak mengubah aturan di atas)
+    ══════════════════════════════════════════ */
+    html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+    img, svg, video { max-width:100%; height:auto; }
+    button, .tab-btn, .quiz-opt, .demo-btn, .btn-sm, .btn-outline { touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+
+    @media (max-width:900px) {
+      .topbar { padding-left:max(24px, env(safe-area-inset-left)); padding-right:max(24px, env(safe-area-inset-right)); }
+      .wrap { padding-left:max(24px, env(safe-area-inset-left)); padding-right:max(24px, env(safe-area-inset-right)); padding-bottom:max(96px, calc(env(safe-area-inset-bottom) + 48px)); }
+      .tabs {
+        margin-left:calc(-1 * max(24px, env(safe-area-inset-left)));
+        margin-right:calc(-1 * max(24px, env(safe-area-inset-right)));
+        padding-left:max(24px, env(safe-area-inset-left));
+        padding-right:max(24px, env(safe-area-inset-right));
+        overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
+      }
+      .tab-btn { min-height:48px; }
+      .btn-sm { min-height:44px; padding-left:16px; padding-right:16px; }
+      button.btn-outline { min-height:44px; }
+      .hero-desc, .sec-desc, .box, .formula, .card-ex, .jp-example, .jp-tr, .quiz-q, .quiz-feedback, .quiz-result, .demo-note, .summary-rule {
+        overflow-wrap:anywhere;
+      }
+      .tbl-wrap { -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; }
+    }
+
+    @media (max-width:640px) {
+      .topbar { padding-left:max(18px, env(safe-area-inset-left)); padding-right:max(18px, env(safe-area-inset-right)); }
+      .wrap { padding-left:max(18px, env(safe-area-inset-left)); padding-right:max(18px, env(safe-area-inset-right)); padding-bottom:max(72px, calc(env(safe-area-inset-bottom) + 48px)); }
+      .tabs {
+        margin-left:calc(-1 * max(18px, env(safe-area-inset-left)));
+        margin-right:calc(-1 * max(18px, env(safe-area-inset-right)));
+        padding-left:max(18px, env(safe-area-inset-left));
+        padding-right:max(18px, env(safe-area-inset-right));
+      }
+      .hero { gap:28px; padding:32px 0 36px; }
+      .hero-kanji { font-size:clamp(4rem, 22vw, 6.5rem); }
+      .demo-btn { width:100%; }
+      .quiz-options { flex-direction:column; }
+      .quiz-opt { width:100%; max-width:100%; }
+      .info-box { font-size:1rem; }
+      .warn-box, .tip-box, .danger-box { padding-right:16px; }
+      .formula { padding:18px; }
+
+      /* Tabel → kartu: sel ditumpuk, label kolom dibuat lewat CSS (HTML tidak diubah) */
+      .tbl-wrap td { display:block; padding:7px 0; }
+      .tbl-wrap td::before { display:block; margin-bottom:2px; }
+      #content1 td:nth-child(1)::before { content:"Kata Biasa"; }
+      #content1 td:nth-child(2)::before { content:"Sonkeigo"; }
+      #content1 td:nth-child(3)::before { content:"Arti"; }
+      #content1 td:nth-child(4)::before { content:"Contoh & Terjemahan"; }
+      #content2 table td:nth-child(1)::before { content:"Kata Biasa"; }
+      #content2 table td:nth-child(2)::before { content:"Tipe"; }
+      #content2 table td:nth-child(3)::before { content:"Sonkeigo"; }
+      #content2 table td:nth-child(4)::before { content:"Contoh Kalimat"; }
+      #content2 .tbl-wrap ~ .tbl-wrap td:nth-child(3)::before { content:"Permintaan Hormat"; }
+      #content3 td:nth-child(1)::before { content:"Kata Biasa"; }
+      #content3 td:nth-child(2)::before { content:"Bentuk Hormat (Pasif)"; }
+      #content3 td:nth-child(3)::before { content:"Contoh Kalimat"; }
+      #content4 td:nth-child(1)::before { content:"Konteks"; }
+      #content4 td:nth-child(2)::before { content:"Level yang Disarankan"; }
+      #content4 td:nth-child(3)::before { content:"Catatan"; }
+    }
+
+    @media (max-width:380px) {
+      .topbar-brand span { display:none; }
+      .badge { font-size:.78rem; }
+      .quiz-card { padding:18px 14px 20px; }
+    }
+
+    @media (hover:none) {
+      .btn-sm:hover { border-color:var(--line); color:var(--ink); }
+      button.btn-outline:hover { border-color:var(--line); color:var(--ink); }
+      .demo-btn:hover { background:var(--yama-text); }
+      .tab-btn:hover { color:var(--muted); }
+      .tab-btn.active:hover { color:var(--ink); }
+      .quiz-opt:hover:not(:disabled) { border-color:var(--line); }
+    }
+
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
     @media print {
       .topbar, .tabs, .demo, .btn-outline, .quiz-score { display:none !important; }
@@ -373,6 +452,33 @@
             </td>
           </tr>
           <tr>
+            <td><span class="jp"><ruby>買う<rt>かう</rt></ruby></span></td>
+            <td><span class="jp"><ruby>お求めになる<rt>おもとめになる</rt></ruby></span></td>
+            <td style="color:var(--muted);font-size:0.85rem">membeli</td>
+            <td>
+              <div class="jp-example">チケットはどちらで<span class="jp-highlight">お求めになりましたか</span>？</div>
+              <div class="jp-tr">Di mana Anda membeli tiketnya?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>気に入る<rt>きにいる</rt></ruby></span></td>
+            <td><span class="jp"><ruby>お気に召す<rt>おきにめす</rt></ruby></span></td>
+            <td style="color:var(--muted);font-size:0.85rem">menyukai / berkenan</td>
+            <td>
+              <div class="jp-example">こちらの商品はお<span class="jp-highlight">気に召しましたか</span>？</div>
+              <div class="jp-tr">Apakah Anda berkenan dengan produk ini?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>もらう<rt>もらう</rt></ruby>・<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>る</span></td>
+            <td><span class="jp"><ruby>お受け取りになる<rt>おうけとりになる</rt></ruby></span></td>
+            <td style="color:var(--muted);font-size:0.85rem">menerima</td>
+            <td>
+              <div class="jp-example">社長が記念品を<span class="jp-highlight">お受け取りになりました</span>。</div>
+              <div class="jp-tr">Direktur telah menerima suvenirnya.</div>
+            </td>
+          </tr>
+          <tr>
             <td><span class="jp"><ruby>死ぬ<rt>しぬ</rt></ruby></span></td>
             <td><div class="jp"><ruby>お亡くなりになる<rt>おなくなりになる</rt></ruby></div></td>
             <td style="color:var(--muted);font-size:0.85rem">meninggal</td>
@@ -466,6 +572,42 @@
             <td>
               <div class="jp-example">何時に<span class="jp-highlight">お帰りになりますか</span>？</div>
               <div class="jp-tr">Jam berapa Anda akan pulang?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>会う<rt>あう</rt></ruby></span></td>
+            <td><span class="badge-type"><ruby>和語<rt>わご</rt></ruby></span></td>
+            <td><span class="jp jp-highlight"><ruby>お会いになる<rt>おあいになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">社長は彼に<span class="jp-highlight">お会いになりましたか</span>？</div>
+              <div class="jp-tr">Apakah Direktur sudah bertemu dengannya?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>借りる<rt>かりる</rt></ruby></span></td>
+            <td><span class="badge-type"><ruby>和語<rt>わご</rt></ruby></span></td>
+            <td><span class="jp jp-highlight"><ruby>お借りになる<rt>おかりになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">先生はあの本を<span class="jp-highlight">お借りになりました</span>。</div>
+              <div class="jp-tr">Sensei telah meminjam buku itu.</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>わかる<rt>わかる</rt></ruby></span></td>
+            <td><span class="badge-type"><ruby>和語<rt>わご</rt></ruby></span></td>
+            <td><span class="jp jp-highlight"><ruby>おわかりになる<rt>おわかりになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">この説明で<span class="jp-highlight">おわかりになりましたか</span>？</div>
+              <div class="jp-tr">Apakah Anda mengerti dengan penjelasan ini?</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="jp"><ruby>思う<rt>おもう</rt></ruby></span></td>
+            <td><span class="badge-type"><ruby>和語<rt>わご</rt></ruby></span></td>
+            <td><span class="jp jp-highlight"><ruby>お思いになる<rt>おおもいになる</rt></ruby></span></td>
+            <td>
+              <div class="jp-example">社長はそのように<span class="jp-highlight">お思いになりました</span>。</div>
+              <div class="jp-tr">Direktur berpikir seperti itu.</div>
             </td>
           </tr>
           <tr>
